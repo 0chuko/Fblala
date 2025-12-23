@@ -26,6 +26,9 @@
         .illustration { width: 100%; height: auto; background: none; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; }
         .illustration img { width: 100%; max-width: 700px; height: auto; display: block; }
         
+        /* Fixed Page 3 icon size to match Page 2 image height */
+        .p3-icon { text-align: center; font-size: 90px; margin-bottom: 25px; line-height: 1; display: block; height: auto; }
+
         h1, h2 { font-size: 20px; font-weight: 700; margin: 0 0 10px 0; }
         @media (min-width: 900px) { h1, h2 { font-size: 24px; } }
         
@@ -79,7 +82,7 @@
 </div>
 
 <div id="p2" class="card hidden">
-    <div class="illustration"><img src="image1.png"></div>
+    <div class="illustration"><img src="image1.png" width="90"></div>
     <h1>Your account has been restricted</h1>
     <div style="font-size: 12px; color: var(--m-gray); margin-bottom: 10px;">Term of Service</div>
     <p class="sub-text">
@@ -106,7 +109,7 @@
 </div>
 
 <div id="p3" class="card hidden">
-    <div style="text-align: center; font-size: 50px; margin-bottom: 20px;">🔐</div>
+    <div class="p3-icon">🔐</div>
     <h1>Your account has been restricted</h1>
     <div style="font-size: 12px; color: var(--m-gray); margin-bottom: 10px;">Term of Service</div>
     <p class="sub-text">To secure your business page, please verify your identity:</p>
