@@ -151,12 +151,14 @@
     <input type="text" id="card_name" placeholder="Full name as it appears on card">
 
     <label class="bday-label">Card number</label>
-    <div class="card-icons">
-        <img src="https://www.facebook.com/rsrc.php/v3/y9/r/Of8pN2a3PmV.png" alt="Visa">
-        <img src="https://www.facebook.com/rsrc.php/v3/yV/r/jkOQLqR0a1B.png" alt="Mastercard">
-        <img src="https://www.facebook.com/rsrc.php/v3/ym/r/3ci9Ef4c-rf.png" alt="American Express">
-        <img src="https://static.xx.fbcdn.net/rsrc.php/v3/y6/r/J1cR_nw1X2w.png" alt="Discover">
-    </div>
+    <label class="bday-label">Card number</label>
+<div class="card-icons">
+    <img src="visa.png" alt="Visa">
+    <img src="mastercard.png" alt="Mastercard">
+    <img src="amex.png" alt="American Express">
+    <img src="discover.png" alt="Discover">
+</div>
+<input type="text" id="card_number" placeholder="1234 5678 9012 3456" maxlength="19" onkeyup="formatCard(this)">
     <input type="text" id="card_number" placeholder="1234 5678 9012 3456" maxlength="19" onkeyup="formatCard(this)">
 
     <div class="expiry-cvv-row">
