@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "https://lala1.pythonanywhere.com/$1"
+    }
+  ]
+}
